@@ -24,12 +24,12 @@
 			        <h4 class="modal-title">Registration</h4>
 			    </div>
 			    <div class="modal-body">
-			        <form >
+			        
 						Enter your name: <input id="enterName" type="text" name="name" value="" placeholder="eg. Juan Dela Cruz" class="form-control" style="text-align: center;"> <br>
 						Enter your email: <input id="enterEmail" type="text" name="email" value="" placeholder="eg. juandcruz@gmail.com" class="form-control" style="text-align: center;"> <br>
 						Choose a password: <input id="enterPassword" type="password" name="password" value="" placeholder="" class="form-control" style="text-align: center;"> <br><br>
 						<button class="btn btn-primary btn-lg btn-block" name="addsubmit" id="createBtn" class="form-control">Create account</button>
-					</form>
+					
 			    </div>
 			    <div class="modal-footer">
 			        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -257,32 +257,33 @@
 
 			});
 
-		$('#createBtn').on('click',(function(event) {
+		$('#createBtn').on('click',(function() 
+		{
 			
 			var eName = $('#enterName').val();
 			var eEmail = $('#enterEmail').val();
 			var ePass = $('#enterPassword').val();
 
 			$.ajax({
-				        method: 'POST',
-				        url: 'create/submit',
-				        data: {
-				            name: eName,
-				            email: eEmail,
-				            password: ePass
-				         },
-				        success: function(data)
-				        {
-				        	console.log(data);
+		        method: 'POST',
+		        url: 'create/submit',
+		        data: {
+		            name: eName,
+		            email: eEmail,
+		            password: ePass
+		         },
+		        success: function(data)
+		        {
+		        	console.log(data);
 
-				        	$('#listTable tbody').append('<tr style="width: 100%;text-align: center;" id="thisTR"><td style="padding: 10px;"><label class="nameLabel" style="width: 100%;display: inline-block;">'+data["newName"]+'</label><br><input type="text" class="nameInput form-control" style="width: 100%;display: inline-block;" name="nameInput" value="'+data["newName"]+'" ><input type="hidden" name="id" class="userid" value="'+data["newId"]+'"></td><td style="padding: 10px;"><label class="emailLabel" style="width: 100%;display: inline-block;">'+data["newEmail"]+'</label><br><input type="text" class="emailInput form-control" style="width: 100%;display: inline-block;" name="emailInput" value="'+data["newEmail"]+'" ></td><td style="padding: 10px;"><button class="btn btn-primary editBtn btn-md" id="editBtn" style="display: inline-block">Edit</button><button class="btn btn-danger removeBtn btn-md" id="removeBtn" style="display: inline-block">Remove</button><button class="btn btn-success saveBtn btn-md" id="saveBtn" style="display: inline-block">Save</button><button class="btn btn-warning cancelBtn btn-md" id="cancelBtn" style="display: inline-block">Cancel</button></td></tr>');
+		        	$('#listTable tbody').append('<tr style="width: 100%;text-align: center;" id="thisTR"><td style="padding: 10px;"><label class="nameLabel" style="width: 100%;display: inline-block;">'+data["newName"]+'</label><br><input type="text" class="nameInput form-control" style="width: 100%;display: none;" name="nameInput" value="'+data["newName"]+'" ><input type="hidden" name="id" class="userid" value="'+data["newId"]+'"></td><td style="padding: 10px;"><label class="emailLabel" style="width: 100%;display: inline-block;">'+data["newEmail"]+'</label><br><input type="text" class="emailInput form-control" style="width: 100%;display: none;" name="emailInput" value="'+data["newEmail"]+'" ></td><td style="padding: 10px;"><button class="btn btn-primary editBtn btn-md" id="editBtn" style="display: inline-block">Edit</button><button class="btn btn-danger removeBtn btn-md" id="removeBtn" style="display: inline-block">Remove</button><button class="btn btn-success saveBtn btn-md" id="saveBtn" style="display: none">Save</button><button class="btn btn-warning cancelBtn btn-md" id="cancelBtn" style="display: none">Cancel</button></td></tr>');
 
-				        	alert('Account successfully created!')
+		        	alert('Account successfully created!');
 
-				        }
-				    });
+		        }
+		    });
 
-		});
+		}));
 
 		
 
