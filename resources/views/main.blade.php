@@ -58,17 +58,17 @@
 				<tr style="width: 100%;text-align: center;" id="thisTR">
 
 					<td style="padding: 10px;">
-						<label class="nameLabel" style="width: 100%;display: inline-block;">{{ $users->name }}</label><br>
+						<label class="nameLabel" style="width: 100%;display: inline-block;">{{ $users->name }}</label>
 						<input type="text" class="nameInput form-control" style="width: 100%;display: inline-block;" name="nameInput" value="{{ $users->name }}" >
 						<input type="hidden" name="id" class="userid" value="{{ $users->id }}">
 					</td>
 					<td style="padding: 10px;">
-						<label class="emailLabel" style="width: 100%;display: inline-block;">{{ $users->email }}</label><br>
+						<label class="emailLabel" style="width: 100%;display: inline-block;">{{ $users->email }}</label>
 						<input type="text" class="emailInput form-control" style="width: 100%;display: inline-block;" name="emailInput" value="{{ $users->email }}" >
 					</td>
 					<td style="padding: 10px;">
 
-							<button class="btn btn-primary editBtn btn-md" id="editBtn" style="display: inline-block">Edit</button>
+							<button class="btn btn-primary editBtn btn-md" id="editBtn" style="display: inline-block" onclick="alertSuccess()">Edit</button>
 
 							<button class="btn btn-danger removeBtn btn-md" id="removeBtn" style="display: inline-block">Remove</button>
 
@@ -89,109 +89,116 @@
 
 	<script>
 
+		function alertSuccess()
+		{
+			alert('Account Successfully Created');
+		}
+
 		//$('input.nameInput').each().hide();
 
 		$('.editBtn').each(function() //EDIT BUTTON FUNCTIONS
 			{
 				//CHANGE LABEL TO TEXTBOX HEHE
+				var thisBtn = $(this);
 				var labelemail =  $(this).closest('tr').find('label.emailLabel');
 			    var labelname = $(this).closest('tr').find('label.nameLabel');
 
-			    var inputname = labelname.next().next();
-			    var inputemail = labelemail.next().next();
+			    var inputname = labelname.next();
+			    var inputemail = labelemail.next();
 
 			    inputname.hide();
 				inputemail.hide();
 				$(this).next().next().hide();//SAVE BUTTON
 				$(this).next().next().next().hide();//CANCEL BUTTON
 
-			    $(this).on('click', function(){
-			    	labelname.hide();
-			    	labelemail.hide();
-				    inputname.show();
-				    inputemail.show();
-				    $(this).hide();//EDIT BUTTON
-				    $(this).next().hide();//REMOVE BUTTON
-				    $(this).next().next().show();//SAVE BUTTON
-				    $(this).next().next().next().show();//CANCEL BUTTON
-
-				    var nameData = inputname.val();
-				    var emailData = inputemail.val();
-				    //var idData = userid.val();
-
-				    /*$.ajax({
-				        method: 'POST',
-				        url: '/update',
-				        data: {
-				            id: idData,
-				            name: nameData,
-				            email: emailData
-				         },
-				    });*/
-
-			    });
-
-			    //END OF CHANGE LABEL TO TEXTBOX HEHE
-
 			});
+
+		$(document).on('click', '.editBtn', function(){
+
+			var thisBtn = $(this);
+			var labelemail =  $(this).closest('tr').find('label.emailLabel');
+		    var labelname = $(this).closest('tr').find('label.nameLabel');
+
+		    var inputname = labelname.next();
+		    var inputemail = labelemail.next();
+	    	labelname.hide();
+	    	labelemail.hide();
+		    inputname.show();
+		    inputemail.show();
+		    $(this).hide();//EDIT BUTTON
+		    $(this).next().hide();//REMOVE BUTTON
+		    $(this).next().next().show();//SAVE BUTTON
+		    $(this).next().next().next().show();//CANCEL BUTTON
+
+		    var nameData = inputname.val();
+		    var emailData = inputemail.val();
+
+
+	    });
 
 		$('.removeBtn').each(function() //REMOVE BUTTON FUNCTIONS
 			{
+				var thisBtn = $(this);
 				var remove = $(this).closest('tr');
 				var labelemail =  $(this).closest('tr').find('label.emailLabel');
 			    var labelname = $(this).closest('tr').find('label.nameLabel');
 
-			    var inputname = labelname.next().next();
+			    var inputname = labelname.next();
 			    var hiddenid = inputname.next();
-			    var inputemail = labelemail.next().next();
-
-
-			    $(this).on('click', function(){
-			    	labelname.show();
-			    	labelemail.show();
-				    inputname.hide();
-				    inputemail.hide();
-				    $(this).show();//REMOVE BUTTON
-				    $(this).prev().show();//REMOVE BUTTON
-				    $(this).next().hide();//CANCEL BUTTON
-				    $(this).next().next().hide();//CANCEL BUTTON
-
-				    //GET REQUEST FOR REMOVAL
-				    var nameData = inputname.val();
-				    var emailData = inputemail.val();
-				    var idData = hiddenid.val();
-
-				    /*$.get("/delete/"+idData,function(data, status)
-				    {
-				    	alert("Account successfully removed.");
-				    	//$(this).closest('#thisTR').remove();
-				    });*/
-
-				    $.ajax({
-				        method: 'GET',
-				        url: '/delete/'+idData,
-				        success: function(data)
-				        {
-				        	console.log(data);
-				        	alert("Record deleted.");
-				        	remove.remove();
-				        }
-				    });
-				    
-			    });
+			    var inputemail = labelemail.next();
 
 			});
+
+		$(document).ready(function() {
+			
+			$(document).on('click', '.removeBtn', function(){
+				var thisBtn = $(this);
+				var remove = $(this).closest('tr');
+				var labelemail =  $(this).closest('tr').find('label.emailLabel');
+			    var labelname = $(this).closest('tr').find('label.nameLabel');
+
+			    var inputname = labelname.next();
+			    var hiddenid = inputname.next();
+			    var inputemail = labelemail.next();
+
+		    	labelname.show();
+		    	labelemail.show();
+			    inputname.hide();
+			    inputemail.hide();
+			    $(this).show();//REMOVE BUTTON
+			    $(this).prev().show();//REMOVE BUTTON
+			    $(this).next().hide();//CANCEL BUTTON
+			    $(this).next().next().hide();//CANCEL BUTTON
+
+			    //GET REQUEST FOR REMOVAL
+			    var nameData = inputname.val();
+			    var emailData = inputemail.val();
+			    var idData = hiddenid.val();
+
+			    $.ajax({
+			        method: 'GET',
+			        url: '/delete/'+idData,
+			        success: function(data)
+			        {
+			        	console.log(data);
+			        	alert("Record deleted.");
+			        	remove.remove();
+			        }
+			    });
+		    });
+		});
+
 
 		$('.saveBtn').each(function() //SAVE BUTTON FUNCTIONS
 			{
 				var labelemail =  $(this).closest('tr').find('label.emailLabel');
 			    var labelname = $(this).closest('tr').find('label.nameLabel');
 
-			    var inputname = labelname.next().next();
+			    var inputname = labelname.next();
 			    var hiddenid = inputname.next();
-			    var inputemail = labelemail.next().next();
+			    var inputemail = labelemail.next();
 
-			    $(this).on('click', function(){
+			    /*$(this).on('click', function(){
 
 			    	labelname.show();
 			    	labelemail.show();
@@ -221,26 +228,69 @@
 				        	labelname.text(data["name"]);
 				        	inputemail.val(data["email"]);
 				        	labelemail.text(data["email"]);
+				        	alert('Account successfully updated!');
 				        }
 				    });
-			    });
+			    });*/
 
 			});
+
+		$(document).on('click', '.saveBtn', function(){
+
+			var labelemail =  $(this).closest('tr').find('label.emailLabel');
+		    var labelname = $(this).closest('tr').find('label.nameLabel');
+
+		    var inputname = labelname.next();
+		    var hiddenid = inputname.next();
+		    var inputemail = labelemail.next();
+
+	    	labelname.show();
+	    	labelemail.show();
+		    inputname.hide();
+		    inputemail.hide();
+		    $(this).hide();//SAVE BUTTON
+		    $(this).prev().show();//REMOVE BUTTON
+		    $(this).next().hide();//CANCEL BUTTON
+		    $(this).prev().prev().show();//CANCEL BUTTON
+
+		    var nameData = inputname.val();
+		    var emailData = inputemail.val();
+		    var idData = hiddenid.val();
+
+		    $.ajax({
+		        method: 'POST',
+		        url: '/update',
+		        data: {
+		            id: idData,
+		            name: nameData,
+		            email: emailData
+		         },
+		        success: function(data)
+		        {
+		        	console.log(data);
+		        	inputname.val(data["name"]);
+		        	labelname.text(data["name"]);
+		        	inputemail.val(data["email"]);
+		        	labelemail.text(data["email"]);
+		        	alert('Account successfully updated!');
+		        }
+		    });
+	    });
 
 		$('.cancelBtn').each(function() //SAVE BUTTON FUNCTIONS
 			{
 				var labelemail =  $(this).closest('tr').find('label.emailLabel');
 			    var labelname = $(this).closest('tr').find('label.nameLabel');
 
-			    var inputname = labelname.next().next();
+			    var inputname = labelname.next();
 
-			    var inputemail = labelemail.next().next();
+			    var inputemail = labelemail.next();
 
 			    var nameData = inputname.val();
 			    var emailData = inputemail.val();
 
 
-			    $(this).on('click', function(){
+			    /*$(this).on('click', function(){
 			    	labelname.show();
 			    	labelemail.show();
 				    inputname.hide();
@@ -253,9 +303,34 @@
 				    inputname.val(nameData);
 				    inputemail.val(emailData);
 
-			    });
+			    });*/
 
 			});
+
+		$(document).on('click', '.cancelBtn', function(){
+			
+			var labelemail =  $(this).closest('tr').find('label.emailLabel');
+		    var labelname = $(this).closest('tr').find('label.nameLabel');
+
+		    var inputname = labelname.next();
+
+		    var inputemail = labelemail.next();
+
+		    var nameData = inputname.val();
+		    var emailData = inputemail.val();
+
+	    	labelname.show();
+	    	labelemail.show();
+		    inputname.hide();
+		    inputemail.hide();
+		    $(this).hide();//CANCEL BUTTON
+		    $(this).prev().hide();//SAVE BUTTON
+		    $(this).prev().prev().show();//REMOVE BUTTON
+		    $(this).prev().prev().prev().show();//EDIT BUTTON
+
+		    inputname.val(nameData);
+		    inputemail.val(emailData);
+	    });
 
 		$('#createBtn').on('click',(function() 
 		{
@@ -276,9 +351,7 @@
 		        {
 		        	console.log(data);
 
-		        	$('#listTable tbody').append('<tr style="width: 100%;text-align: center;" id="thisTR"><td style="padding: 10px;"><label class="nameLabel" style="width: 100%;display: inline-block;">'+data["newName"]+'</label><br><input type="text" class="nameInput form-control" style="width: 100%;display: none;" name="nameInput" value="'+data["newName"]+'" ><input type="hidden" name="id" class="userid" value="'+data["newId"]+'"></td><td style="padding: 10px;"><label class="emailLabel" style="width: 100%;display: inline-block;">'+data["newEmail"]+'</label><br><input type="text" class="emailInput form-control" style="width: 100%;display: none;" name="emailInput" value="'+data["newEmail"]+'" ></td><td style="padding: 10px;"><button class="btn btn-primary editBtn btn-md" id="editBtn" style="display: inline-block">Edit</button><button class="btn btn-danger removeBtn btn-md" id="removeBtn" style="display: inline-block">Remove</button><button class="btn btn-success saveBtn btn-md" id="saveBtn" style="display: none">Save</button><button class="btn btn-warning cancelBtn btn-md" id="cancelBtn" style="display: none">Cancel</button></td></tr>');
-
-		        	alert('Account successfully created!');
+		        	$('#listTable tbody').append('<tr style="width: 100%;text-align: center;" id="thisTR"><td style="padding: 10px;"><label class="nameLabel" style="width: 100%;display: inline-block;">'+data["newName"]+'</label><input type="text" class="nameInput form-control" style="width: 100%;display: none;" name="nameInput" value="'+data["newName"]+'" ><input type="hidden" name="id" class="userid" value="'+data["newId"]+'"></td><td style="padding: 10px;"><label class="emailLabel" style="width: 100%;display: inline-block;">'+data["newEmail"]+'</label><input type="text" class="emailInput form-control" style="width: 100%;display: none;" name="emailInput" value="'+data["newEmail"]+'" ></td><td style="padding: 10px;">&nbsp;&nbsp;<button class="btn btn-primary editBtn btn-md" id="editBtn" style="display: inline-block">Edit</button>&nbsp;<button class="btn btn-danger removeBtn btn-md" id="removeBtn" style="display: inline-block">Remove</button>&nbsp;<button class="btn btn-success saveBtn btn-md" id="saveBtn" style="display: none">Save</button>&nbsp;<button class="btn btn-warning cancelBtn btn-md" id="cancelBtn" style="display: none">Cancel</button></td></tr>');
 
 		        }
 		    });
@@ -289,19 +362,6 @@
 
 	</script>
 
-	<!-- <div id="updateDiv">
-
-		<form action="/update" method="post" accept-charset="utf-8">
-			<input type="hidden" name="id" value="{{ isset($id) ? $id : '' }}" >
-			Name: <input type="text" name="name" value="{{ isset($name) ? $name : '' }}" placeholder=""> <br><br>
-			Email: <input type="text" name="email" value="{{ isset($email) ? $email : '' }}" placeholder=""> <br><br>
-			New Password: <input type="password" name="password" value="" placeholder=""> <br><br>
-
-			<input type="submit" class="btn btn-success" name="updatesubmit" value="Update account">
-
-		</form>
-		
-	</div> -->
 </center>
 
 <br>
