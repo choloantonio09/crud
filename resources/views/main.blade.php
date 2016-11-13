@@ -102,11 +102,6 @@
 
 	<script>
 
-		function alertSuccess()
-		{
-			alert('Account Successfully Created');
-		}
-
 		//$('input.nameInput').each().hide();
 
 		$('.editBtn').each(function() //EDIT BUTTON FUNCTIONS
@@ -281,12 +276,13 @@
 		         },
 		        success: function(data)
 		        {
+		        	alert('Account successfully updated!');
 		        	console.log(data);
 		        	inputname.val(data["name"]);
 		        	labelname.text(data["name"]);
 		        	inputemail.val(data["email"]);
 		        	labelemail.text(data["email"]);
-		        	alert('Account successfully updated!');
+		        	
 		        }
 		    });
 	    });
@@ -349,10 +345,10 @@
 		$('#createBtn').on('click',(function() 
 		{
 			
-			var name = $('#nameInput').val().length;
+			/*var name = $('#nameInput').val().length;
 			if(name == ""){
 				$('#sampleLabel').show();
-			}
+			}*/
 
 			var eName = $('#enterName').val();
 			var eEmail = $('#enterEmail').val();
@@ -369,8 +365,10 @@
 		        success: function(data)
 		        {
 		        	console.log(data);
+		        	alert("Account Successfully Created");
 
 		        	$('#listTable tbody').append('<tr style="width: 100%;text-align: center;" id="thisTR"><td style="padding: 10px;"><label class="nameLabel" style="width: 100%;display: inline-block;">'+data["newName"]+'</label><input type="text" class="nameInput form-control" style="width: 100%;display: none;" name="nameInput" value="'+data["newName"]+'" ><input type="hidden" name="id" class="userid" value="'+data["newId"]+'"></td><td style="padding: 10px;"><label class="emailLabel" style="width: 100%;display: inline-block;">'+data["newEmail"]+'</label><input type="text" class="emailInput form-control" style="width: 100%;display: none;" name="emailInput" value="'+data["newEmail"]+'" ></td><td style="padding: 10px;">&nbsp;&nbsp;<button class="btn btn-primary editBtn btn-md" id="editBtn" style="display: inline-block">Edit</button>&nbsp;<button class="btn btn-danger removeBtn btn-md" id="removeBtn" style="display: inline-block">Remove</button>&nbsp;<button class="btn btn-success saveBtn btn-md" id="saveBtn" style="display: none">Save</button>&nbsp;<button class="btn btn-warning cancelBtn btn-md" id="cancelBtn" style="display: none">Cancel</button></td></tr>');
+
 
 		        },
 		        error: function(data)
