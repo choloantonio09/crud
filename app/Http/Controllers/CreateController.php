@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Create;
+use Illuminate\Support\Facades\Input;
 
 class CreateController extends Controller
 {
+	
+
 	public function displayAll() // DONE
     {
     	$create = Create::all();
@@ -15,6 +18,14 @@ class CreateController extends Controller
 
     public function store(Request $request) // DONE
     {
+    	// $this->validate($request,[
+
+    	// 	'name' => 'bail|required|max:255',
+    	// 	'email' => 'bail|required|email|max:255',
+    	// 	'password' => 'bail|required|max:255'
+
+    	// 	]);
+
     	$create = new Create;
     	$create->name = $request->name;
     	$create->email = $request->email;
@@ -48,10 +59,6 @@ class CreateController extends Controller
 	    		'create' => $create,
 	    		]);
     	}
-
-    	
-    	//return redirect()->back();
-    	//return $this->displayAll();
     	
     }
 
@@ -60,14 +67,9 @@ class CreateController extends Controller
     	$create = Create::find($request->id);
     	$create->name = $request->name;
     	$create->email = $request->email;
-    	/*if($request->password == "" || !ctype_space($request->password))
-    	{
-    		$create->password = md5($request->password);
-    	}*/
+    	
     	$create->save();
 
-
-    	
     	return response()->json([
     		'name' => $create->name,
     		'email' => $create->email
@@ -81,7 +83,6 @@ class CreateController extends Controller
     	$create = Create::find($id);
     	$create->delete();
     	
-    	//return $this->displayAll();
     	return 'success';
     	
     }

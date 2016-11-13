@@ -13,6 +13,17 @@
 <body style="text-align: center;" class="col-md-12">
 <center>
 <br>
+	<div>
+		@if (count($errors) > 0)
+		    <div class="alert alert-danger">
+		        <ul>
+		            @foreach ($errors->all() as $error)
+		                <li>{{ $error }}</li>
+		            @endforeach
+		        </ul>
+		    </div>
+		@endif
+	</div>	
 	
 	<div id="myModal" class="modal fade" role="dialog">
 		<div class="modal-dialog">
@@ -22,7 +33,9 @@
 			    <div class="modal-header">
 			        <button type="button" class="close" data-dismiss="modal">&times;</button>
 			        <h4 class="modal-title">Registration</h4>
+			        <label style="display: none" id="sampleLabel">Input is invalid</label>
 			    </div>
+
 			    <div class="modal-body">
 			        
 						Enter your name: <input id="enterName" type="text" name="name" value="" placeholder="eg. Juan Dela Cruz" class="form-control" style="text-align: center;"> <br>
@@ -237,6 +250,7 @@
 
 		$(document).on('click', '.saveBtn', function(){
 
+
 			var labelemail =  $(this).closest('tr').find('label.emailLabel');
 		    var labelname = $(this).closest('tr').find('label.nameLabel');
 
@@ -316,8 +330,8 @@
 
 		    var inputemail = labelemail.next();
 
-		    var nameData = inputname.val();
-		    var emailData = inputemail.val();
+		    var nameData = labelname.text();
+		    var emailData = labelemail.text();
 
 	    	labelname.show();
 	    	labelemail.show();
@@ -335,6 +349,11 @@
 		$('#createBtn').on('click',(function() 
 		{
 			
+			var name = $('#nameInput').val().length;
+			if(name == ""){
+				$('#sampleLabel').show();
+			}
+
 			var eName = $('#enterName').val();
 			var eEmail = $('#enterEmail').val();
 			var ePass = $('#enterPassword').val();
@@ -353,6 +372,12 @@
 
 		        	$('#listTable tbody').append('<tr style="width: 100%;text-align: center;" id="thisTR"><td style="padding: 10px;"><label class="nameLabel" style="width: 100%;display: inline-block;">'+data["newName"]+'</label><input type="text" class="nameInput form-control" style="width: 100%;display: none;" name="nameInput" value="'+data["newName"]+'" ><input type="hidden" name="id" class="userid" value="'+data["newId"]+'"></td><td style="padding: 10px;"><label class="emailLabel" style="width: 100%;display: inline-block;">'+data["newEmail"]+'</label><input type="text" class="emailInput form-control" style="width: 100%;display: none;" name="emailInput" value="'+data["newEmail"]+'" ></td><td style="padding: 10px;">&nbsp;&nbsp;<button class="btn btn-primary editBtn btn-md" id="editBtn" style="display: inline-block">Edit</button>&nbsp;<button class="btn btn-danger removeBtn btn-md" id="removeBtn" style="display: inline-block">Remove</button>&nbsp;<button class="btn btn-success saveBtn btn-md" id="saveBtn" style="display: none">Save</button>&nbsp;<button class="btn btn-warning cancelBtn btn-md" id="cancelBtn" style="display: none">Cancel</button></td></tr>');
 
+		        },
+		        error: function(data)
+		        {
+		        	var error = data.responseJSON;
+
+		        	console.log(error.name[0]);
 		        }
 		    });
 
