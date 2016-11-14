@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Create;
 use Illuminate\Support\Facades\Input;
+use App\Http\Requests\UserRequest;
+use App\Http\Requests\UpdateRequest;
 
 class CreateController extends Controller
 {
@@ -16,15 +18,14 @@ class CreateController extends Controller
     	return view('main')->with('create', $create);
     }
 
-    public function store(Request $request) // DONE
+    public function store(UserRequest $request) // DONE
     {
-    	// $this->validate($request,[
+    	/*$this->validate($request,[
 
-    	// 	'name' => 'bail|required|max:255',
-    	// 	'email' => 'bail|required|email|max:255',
-    	// 	'password' => 'bail|required|max:255'
+    		//'name' => ['bail','required','regex:^[A-Z]\'?[- a-zA-Z]( [a-zA-Z])*$','max:255'],
+    		
 
-    	// 	]);
+    		]);*/
 
     	$create = new Create;
     	$create->name = $request->name;
@@ -62,8 +63,15 @@ class CreateController extends Controller
     	
     }
 
-    public function update(Request $request)
+    public function update(UpdateRequest $request)
     {
+    	/*$this->validate($request,[
+
+    		'id' => 'required',
+            'name' => 'bail|required|regex:/^\pL[\pL \'-]*\z/|max:255',
+            'email' => 'bail|required|max:255',
+    		]);*/
+
     	$create = Create::find($request->id);
     	$create->name = $request->name;
     	$create->email = $request->email;

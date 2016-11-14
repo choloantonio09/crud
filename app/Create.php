@@ -15,4 +15,12 @@ class Create extends Model
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    /*public function rules()
+	{
+	    return [
+	        'title' => 'required|unique:posts|max:255',
+	        'body' => 'required',
+	    ];
+	}*/
 }

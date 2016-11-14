@@ -13,7 +13,7 @@
 <body style="text-align: center;" class="col-md-12">
 <center>
 <br>
-	<div>
+	<!-- <div>
 		@if (count($errors) > 0)
 		    <div class="alert alert-danger">
 		        <ul>
@@ -23,7 +23,7 @@
 		        </ul>
 		    </div>
 		@endif
-	</div>	
+	</div>	 -->
 	
 	<div id="myModal" class="modal fade" role="dialog">
 		<div class="modal-dialog">
@@ -40,7 +40,14 @@
 			        
 						Enter your name: <input id="enterName" type="text" name="name" value="" placeholder="eg. Juan Dela Cruz" class="form-control" style="text-align: center;"> <br>
 						Enter your email: <input id="enterEmail" type="text" name="email" value="" placeholder="eg. juandcruz@gmail.com" class="form-control" style="text-align: center;"> <br>
-						Choose a password: <input id="enterPassword" type="password" name="password" value="" placeholder="" class="form-control" style="text-align: center;"> <br><br>
+						Choose a password: <input id="enterPassword" type="password" name="password" value="" placeholder="" class="form-control" style="text-align: center;"> <br>
+
+						<div id="createAlert">
+							<!-- <div class="alert alert-danger" id="modalAlert" style="display: none">
+								<strong>Oops!</strong>
+							</div> -->
+						</div>
+
 						<button class="btn btn-primary btn-lg btn-block" name="addsubmit" id="createBtn" class="form-control">Create account</button>
 					
 			    </div>
@@ -57,7 +64,17 @@
 
 		<table style="width: 100%;" class="table table-inverse table-stripped" id="listTable">
 			<h1>List of Accounts</h1><br>
-			<!-- <a href="/create" > --><button class="btn btn-info" data-toggle="modal" data-target="#myModal" >Add Account</button><!-- </a> --><br><br>
+			<!-- <a href="/create" > --><button class="btn btn-info" data-toggle="modal" data-target="#myModal" >Add Account</button><!-- </a> --><br>
+			<br>
+
+			<div id="editalert">
+				
+			</div>
+			<!-- <div class="alert alert-danger" id="modalAlertEdit" style="display: none">
+				<strong>Oops!</strong>
+			</div> -->
+
+			
 			<thead class="thead-inverse">
 				<tr>
 					<th style="text-align: center;">Name</th>
@@ -81,7 +98,7 @@
 					</td>
 					<td style="padding: 10px;">
 
-							<button class="btn btn-primary editBtn btn-md" id="editBtn" style="display: inline-block" onclick="alertSuccess()">Edit</button>
+							<button class="btn btn-primary editBtn btn-md" id="editBtn" style="display: inline-block">Edit</button>
 
 							<button class="btn btn-danger removeBtn btn-md" id="removeBtn" style="display: inline-block">Remove</button>
 
@@ -189,8 +206,11 @@
 			        success: function(data)
 			        {
 			        	console.log(data);
-			        	alert("Record deleted.");
+			        	//alert("Record deleted.");
 			        	remove.remove();
+			        	$('#modalAlertEdit').remove();
+			        	$('#editalert').append('<div class="alert alert-success" id="modalAlertEdit" style="display: none"><strong>Success!</strong> Record successfully deleted.</div>');
+			        	$('#modalAlertEdit').show();
 			        }
 			    });
 		    });
@@ -276,13 +296,44 @@
 		         },
 		        success: function(data)
 		        {
-		        	alert('Account successfully updated!');
+		        	//alert('Account successfully updated!');
 		        	console.log(data);
 		        	inputname.val(data["name"]);
 		        	labelname.text(data["name"]);
 		        	inputemail.val(data["email"]);
 		        	labelemail.text(data["email"]);
+		        	$('#modalAlertEdit').remove();
+		        	$('#editalert').append('<div class="alert alert-success" id="modalAlertEdit" style="display: none"><strong>Success!</strong> Changes have been saved.</div>');
+		        	$('#modalAlertEdit').show();
 		        	
+		        },
+		        error: function(data)
+		        {
+		        	var nameOldData = labelname.text();
+		    		var emailOldData = labelemail.text();
+
+		        	var error = data.responseJSON;
+		        	
+		        	$('#modalAlertEdit').remove();
+		        	$('#editalert').append('<div class="alert alert-danger" id="modalAlertEdit" style="display: none"><strong>Oops!</strong></div>');
+
+		        	$('#modalAlertEdit').show();
+
+		        	if(error.name!=null)
+		        	{
+		        		$('#modalAlertEdit').append(error.name);
+		        	}
+		        	if(error.email!=null)
+		        	{
+		        		$('#modalAlertEdit').append(error.email);
+
+		        	}
+
+		        	inputname.val(nameOldData);
+		    		inputemail.val(emailOldData);
+		        	
+		        	console.log(error.name);
+		        	console.log(error.email);
 		        }
 		    });
 	    });
@@ -340,6 +391,8 @@
 
 		    inputname.val(nameData);
 		    inputemail.val(emailData);
+
+
 	    });
 
 		$('#createBtn').on('click',(function() 
@@ -365,17 +418,53 @@
 		        success: function(data)
 		        {
 		        	console.log(data);
-		        	alert("Account Successfully Created");
+		        	
 
 		        	$('#listTable tbody').append('<tr style="width: 100%;text-align: center;" id="thisTR"><td style="padding: 10px;"><label class="nameLabel" style="width: 100%;display: inline-block;">'+data["newName"]+'</label><input type="text" class="nameInput form-control" style="width: 100%;display: none;" name="nameInput" value="'+data["newName"]+'" ><input type="hidden" name="id" class="userid" value="'+data["newId"]+'"></td><td style="padding: 10px;"><label class="emailLabel" style="width: 100%;display: inline-block;">'+data["newEmail"]+'</label><input type="text" class="emailInput form-control" style="width: 100%;display: none;" name="emailInput" value="'+data["newEmail"]+'" ></td><td style="padding: 10px;">&nbsp;&nbsp;<button class="btn btn-primary editBtn btn-md" id="editBtn" style="display: inline-block">Edit</button>&nbsp;<button class="btn btn-danger removeBtn btn-md" id="removeBtn" style="display: inline-block">Remove</button>&nbsp;<button class="btn btn-success saveBtn btn-md" id="saveBtn" style="display: none">Save</button>&nbsp;<button class="btn btn-warning cancelBtn btn-md" id="cancelBtn" style="display: none">Cancel</button></td></tr>');
 
+		        	$('#myModal').modal('toggle');
+		        	$('#modalAlertEdit').remove();
+		        	$('#editalert').append('<div class="alert alert-success" id="modalAlertEdit" style="display: none"><strong>Success!</strong> Account successfully created.</div>');
+		        	$('#modalAlertEdit').show();
 
+		        	if($('#enterName').val() == eName)
+		        	{
+		        		$('#enterName').val("");
+		        	}
+		        	if($('#enterEmail').val() == eEmail)
+		        	{
+		        		$('#enterEmail').val("");
+		        	}
+		        	if($('#enterPassword').val() == ePass)
+		        	{
+		        		$('#enterPassword').val("");
+		        	}
+		        	$('#modalAlert').remove();
+	
 		        },
 		        error: function(data)
 		        {
 		        	var error = data.responseJSON;
+		        	//console.log(data);
+		        	$('#modalAlert').remove();
+		        	$('#createAlert').append('<div class="alert alert-danger" id="modalAlert" style="display: none"><strong>Oops!</strong></div>');
+		        	$('#modalAlert').show();
 
-		        	console.log(error.name[0]);
+		        	if(error.name!=null)
+		        	{
+		        		$('#modalAlert').append(error.name);
+		        	}
+		        	if(error.email!=null)
+		        	{
+		        		$('#modalAlert').append(error.email);
+
+		        	}
+		        	if(error.password!=null)
+		        	{
+		        		$('#modalAlert').append(error.password);
+
+		        	}
+
 		        }
 		    });
 
