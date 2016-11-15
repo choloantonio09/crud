@@ -20,12 +20,6 @@ class CreateController extends Controller
 
     public function store(UserRequest $request) // DONE
     {
-    	/*$this->validate($request,[
-
-    		//'name' => ['bail','required','regex:^[A-Z]\'?[- a-zA-Z]( [a-zA-Z])*$','max:255'],
-    		
-
-    		]);*/
 
     	$create = new Create;
     	$create->name = $request->name;
@@ -34,6 +28,8 @@ class CreateController extends Controller
     	$create->save();
 
     	$latest = Create::orderBy('created_at','desc')->first();
+
+    	//$request->file('picture')->store('avatars');
     	
     	return response()->json([
 

@@ -17,14 +17,14 @@ use App\Http\Controllers\CreateController;
 
 Route::get('/', 'CreateController@displayAll');
 
-Route::get('/create',function (){
+/*Route::get('/create',function (){
 	return view('partial/addusers');
-});
+});*/
 
 Route::post('/create/submit','CreateController@store'); // INSERT TO DB FUNCTION
 
-Route::get('/displayUpdate','CreateController@displayUpdate'); // SHOW VALUES TO BE UPDATED
+//Route::get('/displayUpdate','CreateController@displayUpdate'); // SHOW VALUES TO BE UPDATED
 
-Route::post('/update','CreateController@update');
+Route::post('/update','CreateController@update'); //UPDATE
 
 Route::get('delete/{id}','CreateController@delete'); //DELETE FUNCTION
