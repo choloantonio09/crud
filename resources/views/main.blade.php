@@ -31,7 +31,7 @@
 
 			    <div class="modal-body">
 			        	
-			        	<img src="" style="width: 150px; height: 150px" alt="Profile Picture"><br><br>
+			        	<img src="{{URL:: to('public/avatar/default.png')}}" id="showimages" style="width: 150px; height: 150px" alt="Profile Picture"><br><br>
 			        	<input type="file" name="picture" id="newPicture" value="" class="form-control" placeholder="">
 			        	<br>
 						Enter your name: <input id="enterName" type="text" name="name" value="" placeholder="eg. Juan Dela Cruz" class="form-control" style="text-align: center;"> <br>
@@ -68,6 +68,7 @@
 			
 			<thead class="thead-inverse">
 				<tr>
+					<th style="text-align: center;">Avatar</th>
 					<th style="text-align: center;">Name</th>
 					<th style="text-align: center;">Email</th>
 					<th style="text-align: center;">Edit</th>
@@ -80,7 +81,9 @@
 
 
 					<!-- <td colspan="" rowspan="" headers="">{{$users->id}}</td> -->
-
+					<td style="padding: 10px">
+						<img src="{{ URL:: to('http://placeholdit/100x100')}}" style="width:100px; height: 100px">
+					</td>
 					<td style="padding: 10px;">
 						<label class="nameLabel" style="width: 100%;display: inline-block;">{{ $users->name }}</label>
 						<input type="text" class="nameInput form-control" style="width: 100%;display: inline-block;" name="nameInput" value="{{ $users->name }}" >

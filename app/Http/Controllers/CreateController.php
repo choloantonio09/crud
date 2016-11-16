@@ -21,6 +21,9 @@ class CreateController extends Controller
     public function store(UserRequest $request) // DONE
     {
 
+        $file = $request->file('picture');
+        $fileName = $request
+
     	$create = new Create;
     	$create->name = $request->name;
     	$create->email = $request->email;
@@ -42,7 +45,7 @@ class CreateController extends Controller
 
     
 
-    public function displayUpdate(Request $request)
+    /*public function displayUpdate(Request $request)
     {
 
     	if($request->isMethod('get'))
@@ -57,16 +60,11 @@ class CreateController extends Controller
 	    		]);
     	}
     	
-    }
+    }*/
 
     public function update(UpdateRequest $request)
     {
-    	/*$this->validate($request,[
 
-    		'id' => 'required',
-            'name' => 'bail|required|regex:/^\pL[\pL \'-]*\z/|max:255',
-            'email' => 'bail|required|max:255',
-    		]);*/
 
     	$create = Create::find($request->id);
     	$create->name = $request->name;

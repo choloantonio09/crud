@@ -9,7 +9,7 @@ class Create extends Model
     protected $table = 'users';
 
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password','image',
     ];
 
     protected $hidden = [

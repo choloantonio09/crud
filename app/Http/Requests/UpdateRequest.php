@@ -26,7 +26,7 @@ class UpdateRequest extends FormRequest
         return [
             'id' => 'required',
             'name' => 'bail|required|regex:/^\pL[\pL \'-]*\z/|max:255',
-            'email' => 'bail|required|max:255',
+            'email' => 'bail|required|email|max:255',
         ];
     }
 

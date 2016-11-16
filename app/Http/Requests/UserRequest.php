@@ -25,7 +25,7 @@ class UserRequest extends FormRequest
     {
         return [
             'name' => 'bail|required|regex:/^\pL[\pL \'-]*\z/|max:255',
-            'email' => 'bail|required|max:255',
+            'email' => 'bail|required|email|max:255',
             'password' => 'bail|required|max:255|min:8'
         ];
     }
